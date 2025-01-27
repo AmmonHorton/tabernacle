@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.so
+
+# Virtual environment
+venv/
+ENV/
+env/
+.venv/
+
+# Build artifacts
+build/
+*.o
+*.a
+*.dylib
+*.dll
+*.lib
+*.exe
+*.obj
+
+# CMake files
+CMakeFiles/
+CMakeCache.txt
+CMakeLists.txt
+cmake_install.cmake
+Makefile
+
+# Python dependency files
+pip-wheel-metadata/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+
+# IDE specific files
+.vscode/
+.idea/
+*.iml
+
+# Generated bindings
+*_bindings.cpython-*.so
