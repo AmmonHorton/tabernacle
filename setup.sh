@@ -48,6 +48,18 @@ fi
 echo "Activating virtual environment..."
 source "$SCRIPT_DIR/venv/bin/activate"
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    echo "Detected macOS. Checking for Buildozer..."
+    
+    # Check if Buildozer is installed
+    if ! command -v buildozer &> /dev/null; then
+        echo "Error: Buildozer is not installed."
+        echo "You can install it with: pip install buildozer"
+        exit 1
+    fi
+
+    echo "Buildozer is installed."
+
 # Install Python dependencies
 echo "Installing Python dependencies..."
 pip install --upgrade pip
