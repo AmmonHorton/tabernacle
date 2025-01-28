@@ -31,3 +31,7 @@ std::shared_ptr<View> View::get_previous_from_history() {
     }
     return nullptr;
 }
+
+const ChapterPointer& View::get_chapter_pointer() const {
+    return chapter_pointer_;
+}

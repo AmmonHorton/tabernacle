@@ -73,25 +73,22 @@ include_directories(\${Python3_INCLUDE_DIRS})
 # Source files
 file(GLOB SOURCES "${SCRIPT_DIR}/src/cpp/*.cc")
 
-# Attempt to find pybind11 using the default CMake path
-find_package(pybind11 CONFIG QUIET)
-
-# If not found, use Python's pybind11 module to locate it
-if (NOT pybind11_FOUND)
-    execute_process(
-        COMMAND python3 -m pybind11 --cmakedir
-        OUTPUT_VARIABLE PYBIND11_DIR
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    set(pybind11_DIR ${PYBIND11_DIR})
-    find_package(pybind11 CONFIG REQUIRED)
-endif ()
-
 # Shared library target
 pybind11_add_module(bible_bindings \${SOURCES})
 
 # Link libraries
 target_link_libraries(bible_bindings PRIVATE Python3::Python)
+
+# Add custom iOS build target if on macOS
+if(\${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    add_custom_target(build_ios ALL
+        COMMAND \${CMAKE_COMMAND} -E echo "Building iOS app using Buildozer..."
+        COMMAND buildozer init
+        COMMAND buildozer -v ios debug
+        WORKING_DIRECTORY \${CMAKE_SOURCE_DIR}
+        COMMENT "Build the iOS app"
+    )
+endif()
 EOL
 
 echo "CMakeLists.txt created successfully."
@@ -104,7 +101,6 @@ cd "$SCRIPT_DIR/build"
 # Explicitly set the pybind11 directory
 PYBIND11_DIR=$(python3 -m pybind11 --cmakedir)
 cmake -Dpybind11_DIR=${PYBIND11_DIR} ..
-
 make
 
 # Move back to the project root
